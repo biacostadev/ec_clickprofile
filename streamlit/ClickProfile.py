@@ -116,6 +116,7 @@ def getData_tcluster_cli_gold():
     # Query Personalizada
     st.markdown("---")
     st.header("Execute Sua Query SQL Personalizada")
+    st.write("Lembre-se que este aplicativo foi criado pensando em ser uma solução que possibilite a visualização das informações para conhecimento e análise dos dados de saída do projeto ClickProfile. Para garantir a melhor usabilidade inclua em sua consulta um `LIMIT` ou agregue os dados (ex: `COUNT`, `SUM`).")
 
     colunas_selecionadas = None
     if tabela_completa:
@@ -146,6 +147,9 @@ def getData_tcluster_cli_gold():
                 df = sqlQuery(custom_query)
                 st.success("Consulta executada com sucesso!")
                 st.dataframe(df, hide_index=True, use_container_width=True)
+            except sql.exc.Error as query_error:
+                st.error(f"Erro de Conexão ou Tamanho de Mensagem. Erro: {query_error}")
+                st.warning("A consulta retornou um volume de dados muito grande. Por favor, ajuste a consulta para incluir um `LIMIT` ou para agregar os dados (ex: `COUNT`, `SUM`).")
             except Exception as query_error:
                 st.error(f"Falha ao executar sua consulta. Erro: {query_error}")
                 st.warning("Verifique se a sintaxe SQL está correta e se você tem permissões.")
